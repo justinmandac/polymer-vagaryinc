@@ -1,0 +1,64 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<!--
+
+  `<vgry-logo>` displays the branding logo and provides an API for controlling the state of the
+  logo - either dark or light.
+
+  For examples, the light version of the logo can be displayed by setting the `type` prop to
+  'light' :
+    ```
+      <vgry-logo type="light"></vgry-logo>
+    ```
+-->
+<dom-module id="vgry-logo">
+  <template>
+    <style>
+      :host {
+        --vgry-logo-height: 40px;
+        --vgry-logo-width: 40px;
+        --vgry-spritesheet-ypos: 36px;
+      }
+
+      .logo-container {
+        background-image: url('spritesheet.png');
+        background-position-x: 0;
+        background-size: cover;
+        height: var(--vgry-logo-height, 40px);
+        width: var(--vgry-logo-height, 40px);
+      }
+
+      .logo-container[data-logo-type="light"] {
+        background-position-y: 0;
+      }
+
+      .logo-container[data-logo-type="dark"] {
+        background-position-y: var(--vgry-spritesheet-ypos, 36px);
+      }
+    </style>
+    <div class="logo-container" data-logo-type$="[[type]]"></div>
+  </template>
+  <script>
+    (() => {
+      /** @enum {string} */
+      const LOGO_STATES = {
+        LIGHT: 'light',
+        DARK: 'dark',
+      };
+
+      class VgryLogo extends Polymer.Element {
+        static get is() { return 'vgry-logo'; }
+        static get properties() {
+          return {
+            type: {
+              type: String,
+              value: LOGO_STATES.DARK,
+              reflectToAttribute: true,
+            },
+          };
+        }
+      }
+
+      customElements.define(VgryLogo.is, VgryLogo);
+    })();
+  </script>
+</dom-module>

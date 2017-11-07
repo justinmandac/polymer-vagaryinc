@@ -1,0 +1,167 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/app-layout/app-layout.html">
+<link rel="import" href="../bower_components/app-route/app-location.html">
+<link rel="import" href="../bower_components/app-route/app-route.html">
+<!-- <link rel="import" href="../bower_components/iron-pages/iron-pages.html"> -->
+<link rel="import" href="../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../bower_components/paper-styles/typography.html">
+
+<link rel="import" href="vgry-logo/vgry-logo.html">
+<link rel="import" href="vgry-contact-page.html">
+<link rel="import" href="vgry-portfolio-page/vgry-portfolio-page.html">
+
+<dom-module id="vgry-app">
+  <template>
+    <style>
+      :host {
+        display: block;
+        font-family: 'Roboto', sans-serif;
+        max-width: 100vw;
+        min-height: 100vh;
+      }
+
+      app-drawer-layout:not([narrow]) vgry-logo,
+      app-drawer-layout:not([narrow]) app-header-layout [main-title],
+      app-drawer-layout:not([narrow]) app-header-layout [drawer-toggle],
+      app-drawer-layout:not([narrow]) [slot="drawer"] [drawer-toggle] {
+        display: none;
+      }
+
+      app-drawer-layout[narrow] app-header-layout [main-title] {
+        display: none;
+      }
+
+      .main-drawer__heading {
+        padding: 0 8px;
+      }
+
+      .drawer-item {
+        cursor: pointer;
+      }
+
+    </style>
+
+    <app-location route="{{route}}" use-hash-as-path></app-location>
+    <app-route
+      id="contactRoute"
+      route="{{route}}"
+      pattern="/contact"
+      on-active-changed="_onActiveChanged">
+    </app-route>
+    <app-route
+      id="projectRoute"
+      route="{{route}}"
+      pattern="/project"
+      tail="{{subroute}}"
+      on-active-changed="_onActiveChanged">
+    </app-route>
+    <app-route route="{{subroute}}" pattern="/:name" data="{{subrouteData}}"></app-route>
+
+    <app-drawer-layout>
+      <app-drawer class="main-drawer" slot="drawer">
+        <app-toolbar>
+          <span main-title>Vagary Inc.</span>
+          <paper-icon-button icon="close" drawer-toggle></paper-icon-button>
+        </app-toolbar>
+        <a href="#/project">
+          <paper-item>
+            <h3>Projects</h3>
+          </paper-item>
+        </a>
+        <div class="drawer-content">
+          <a class="drawer-item" href="#/project/aspen"
+             tabindex="-1">
+             <paper-item>Aspen</paper-item>
+          </a>
+          <a class="drawer-item"
+             href="#/project/buena-vida"
+             tabindex="-1">
+             <paper-item>Buena Vida</paper-item>
+          </a>
+          <a class="drawer-item" href="#/project/flying-house" tabindex="-1">
+            <paper-item>Flying House</paper-item>
+          </a>
+          <a class="drawer-item" href="#/project/renaissance-2000" tabindex="-1">
+            <paper-item>Renaissance 2000</paper-item>
+          </a>
+          <a class="drawer-item" tabindex="-1" href="#/project/tokyo-condo">
+            <paper-item>Tokyo Condo</paper-item>
+          </a>
+
+          <a class="drawer-item" href="#/contact" tabindex="-1">
+            <paper-item><h3>Contact</h3></paper-item>
+          </a>
+          <a class="drawer-item" href="#/about" tabindex="-1">
+            <paper-item>
+              <h3>About Us</h3>
+            </paper-item>
+          </a>
+        </div>
+      </app-drawer>
+      <app-header-layout>
+          <app-header slot="header">
+              <app-toolbar>
+                <paper-icon-button icon="menu" drawer-toggle></paper-icon-button>
+                <span main-title>Vagary Inc.</span>
+                <vgry-logo type="dark"></vgry-logo>
+              </app-toolbar>
+          </app-header>
+          <div class="content">
+            <vgry-contact-page></vgry-contact-page>
+          </div>
+        </app-header-layout>
+    </app-drawer-layout>
+  </template>
+  <script>
+    (() => {
+      class VgryApp extends Polymer.Element {
+        static get is() { return 'vgry-app'; }
+        static get properties() {
+          return {
+            currentPage: {
+              type: String,
+              value: '',
+            },
+            route: {
+              type: Object,
+            },
+            routeData: {
+              type: Object,
+            },
+            subroute: {
+              type: Object,
+            },
+            subrouteData: {
+              type: Object,
+            },
+          };
+        }
+        static get observers() {
+          return [
+            '_onRouteChanged(route)',
+          ];
+        }
+
+        _onActiveChanged(event) {
+          console.log('onActiveChanged', event);
+          console.log('onActiveChanged', event.target.active);
+        }
+
+        _onRouteChanged(route) {
+          Polymer.Base.debounce('routeDebouncer', () => {
+            // const { page } = this.routeData;
+            // this.currentPage = page;
+
+            console.log('route', this.route);
+            console.log('subroute', this.subroute);
+            console.log('subrouteData', this.subrouteData);
+          }, 100);
+        }
+      }
+
+      customElements.define(VgryApp.is, VgryApp);
+    })();
+  </script>
+</dom-module>

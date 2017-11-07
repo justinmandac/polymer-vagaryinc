@@ -1,0 +1,53 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="../bower_components/iron-icons/communication-icons.html">
+
+<dom-module id="vgry-contact-page">
+  <template>
+    <style>
+      :host {
+        display: block;
+        padding: 0 8px;
+      }
+
+      a {
+        color: #434343;
+      }
+
+      iron-icon {
+        margin-right: 16px;
+      }
+    </style>
+    <h2>Get in touch</h2>
+
+    <a href="tel:+639209586605">
+      <paper-item>
+          <iron-icon icon="communication:call"></iron-icon>
+          <paper-item-body>(+63)920 958 6605</paper-item-body>
+        </paper-item>
+    </a>
+
+    <a href="tel:+639175096586">
+      <paper-item>
+          <iron-icon icon="communication:call"></iron-icon>
+          <paper-item-body>(+63)917 509 6586</paper-item-body>
+        </paper-item>
+    </a>
+    <a href="mailto:information@vagaryinc.com">
+      <paper-item>
+          <iron-icon icon="communication:email"></iron-icon>
+          <paper-item-body>information@vagaryinc.com</paper-item-body>
+        </paper-item>
+    </a>
+  </template>
+  <script>
+    (() => {
+      class VgryContactPage extends Polymer.Element {
+        static get is() { return 'vgry-contact-page'; }
+      }
+
+      customElements.define(VgryContactPage.is, VgryContactPage);
+    })();
+  </script>
+</dom-module>

@@ -1,0 +1,16 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+
+<dom-module id="vgry-portfolio-page">
+  <template>
+    <h2>Portfolio</h2>
+  </template>
+  <script>
+    (() => {
+      class VgryPortfolioPage extends Polymer.Element {
+        static get is() { return 'vgry-portfolio-page'; }
+      }
+
+      customElements.define(VgryPortfolioPage.is, VgryPortfolioPage);
+    })();
+  </script>
+</dom-module>

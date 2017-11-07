@@ -1,0 +1,26 @@
+<script>
+  ((global) => {
+    const mixin = (superclass) => class extends superclass {
+      static get properties() {
+        return {
+          projectPage: {
+            type: Object,
+          },
+        };
+      }
+
+      _onPortfolioActivated(event) {
+        const isActive = event.target.active;
+
+        if (isActive) {
+          // Initialize stuff
+        } else {
+          // Cleanup
+        }
+      }
+    };
+
+    global.Vagary = global.Vagary || {};
+    global.Vagary.VgryPortfolioMixin =  mixin;
+  })(window);
+</script>
