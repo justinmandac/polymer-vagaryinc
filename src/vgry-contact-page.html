@@ -3,6 +3,9 @@
 <link rel="import" href="../bower_components/iron-icon/iron-icon.html">
 <link rel="import" href="../bower_components/iron-icons/communication-icons.html">
 
+<link rel="import" href="../bower_components/app-route/app-route.html">
+<link rel="import" href="vgry-page-mixin.html">
+
 <dom-module id="vgry-contact-page">
   <template>
     <style>
@@ -19,6 +22,13 @@
         margin-right: 16px;
       }
     </style>
+    <app-route
+      id="route"
+      active="{{active}}"
+      route="{{route}}"
+      pattern="/{{rootPattern}}">
+    </app-route>
+
     <h2>Get in touch</h2>
 
     <a href="tel:+639209586605">
@@ -42,12 +52,12 @@
     </a>
   </template>
   <script>
-    (() => {
-      class VgryContactPage extends Polymer.Element {
+    ((PageMixin) => {
+      class VgryContactPage extends PageMixin(Polymer.Element) {
         static get is() { return 'vgry-contact-page'; }
       }
 
       customElements.define(VgryContactPage.is, VgryContactPage);
-    })();
+    })(window.Vagary.VgryPageMixin);
   </script>
 </dom-module>

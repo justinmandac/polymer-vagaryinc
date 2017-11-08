@@ -1,8 +1,7 @@
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../bower_components/app-layout/app-layout.html">
 <link rel="import" href="../bower_components/app-route/app-location.html">
-<link rel="import" href="../bower_components/app-route/app-route.html">
-<!-- <link rel="import" href="../bower_components/iron-pages/iron-pages.html"> -->
+<link rel="import" href="../bower_components/iron-pages/iron-pages.html">
 <link rel="import" href="../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../bower_components/paper-item/paper-item.html">
@@ -44,20 +43,7 @@
     </style>
 
     <app-location route="{{route}}" use-hash-as-path></app-location>
-    <app-route
-      id="contactRoute"
-      route="{{route}}"
-      pattern="/contact"
-      on-active-changed="_onActiveChanged">
-    </app-route>
-    <app-route
-      id="projectRoute"
-      route="{{route}}"
-      pattern="/project"
-      tail="{{subroute}}"
-      on-active-changed="_onActiveChanged">
-    </app-route>
-    <app-route route="{{subroute}}" pattern="/:name" data="{{subrouteData}}"></app-route>
+    <app-route route="{{route}}" pattern="/:page" data="{{routeData}}"></app-route>
 
     <app-drawer-layout>
       <app-drawer class="main-drawer" slot="drawer">
@@ -109,7 +95,10 @@
               </app-toolbar>
           </app-header>
           <div class="content">
-            <vgry-contact-page></vgry-contact-page>
+            <iron-pages selected="[[currentPage]]" attr-for-selected="root-pattern">
+              <vgry-contact-page root-pattern="contact" route="{{route}}"></vgry-contact-page>
+              <vgry-portfolio-page root-pattern="project" route="{{route}}"></vgry-portfolio-page>
+            </iron-pages>
           </div>
         </app-header-layout>
     </app-drawer-layout>
@@ -130,12 +119,6 @@
             routeData: {
               type: Object,
             },
-            subroute: {
-              type: Object,
-            },
-            subrouteData: {
-              type: Object,
-            },
           };
         }
         static get observers() {
@@ -144,19 +127,9 @@
           ];
         }
 
-        _onActiveChanged(event) {
-          console.log('onActiveChanged', event);
-          console.log('onActiveChanged', event.target.active);
-        }
-
         _onRouteChanged(route) {
           Polymer.Base.debounce('routeDebouncer', () => {
-            // const { page } = this.routeData;
-            // this.currentPage = page;
-
-            console.log('route', this.route);
-            console.log('subroute', this.subroute);
-            console.log('subrouteData', this.subrouteData);
+            this.currentPage = this.routeData.page;
           }, 100);
         }
       }

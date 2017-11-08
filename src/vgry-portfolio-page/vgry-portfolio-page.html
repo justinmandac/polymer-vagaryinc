@@ -1,16 +1,55 @@
 <link rel="import" href="../../bower_components/polymer/polymer-element.html">
-
+<link rel="import" href="../../bower_components/app-route/app-route.html">
+<link rel="import" href="../vgry-page-mixin.html">
 <dom-module id="vgry-portfolio-page">
   <template>
+    <app-route
+      id="route"
+      active="{{active}}"
+      route="{{route}}"
+      pattern="/{{rootPattern}}"
+      tail="{{subroute}}"
+      on-active-changed="_onActiveChanged">
+    </app-route>
+    <app-route
+      route="{{subroute}}"
+      pattern="/:name"
+      data="{{projectData}}">
+    </app-route>
     <h2>Portfolio</h2>
   </template>
   <script>
-    (() => {
-      class VgryPortfolioPage extends Polymer.Element {
+    ((PageMixin) => {
+      class VgryPortfolioPage extends PageMixin(Polymer.Element) {
         static get is() { return 'vgry-portfolio-page'; }
+        static get properties() {
+          return {
+            projectData: Object,
+          };
+        }
+        static get observers() {
+          return [
+            '_onProjectChanged(projectData)'
+          ];
+        }
+
+        _onActiveChanged(event) {
+          const active = event.target.active;
+
+          if (active === false) {
+            this.projectData = undefined;
+          }
+        }
+
+        _onProjectChanged() {
+          Polymer.Base.debounce('projectDataDebouncer', () => {
+            console.log('Project Data:', this.projectData);
+            // Load project-specific data
+          }, 100);
+        }
       }
 
       customElements.define(VgryPortfolioPage.is, VgryPortfolioPage);
-    })();
+    })(window.Vagary.VgryPageMixin);
   </script>
 </dom-module>
