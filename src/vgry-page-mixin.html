@@ -1,0 +1,26 @@
+<script>
+  ((global) => {
+    const mixin = (superclass) => class extends superclass {
+      static get properties() {
+        return {
+          active: {
+            type: Boolean,
+            value: false,
+            reflectToAttribute: true,
+          },
+          rootPattern: {
+            type: String,
+          },
+          route: {
+            type: Object,
+          },
+        };
+      }
+
+      _onActiveChanged(event) {}
+    };
+
+    global.Vagary = global.Vagary || {};
+    global.Vagary.VgryPageMixin =  mixin;
+  })(window);
+</script>
